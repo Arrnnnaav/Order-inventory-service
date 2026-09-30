@@ -1,0 +1,9 @@
+{
+  "orders": 500000,
+  "query": "status=PLACED, last 7 days, newest first, page size 20",
+  "runs": 40,
+  "matching_rows": 760,
+  "without_index": {"p50_ms": 23.63, "p95_ms": 35.52, "plan": "Limit  (cost=11499.85..11502.30 rows=21 width=52) |   ->  Gather Merge  (cost=11499.85..11573.36 rows=630 width=52) |         Workers Planned: 2 |         ->  Sort  (cost=10499.83..10500.61 rows=315 width=52) |               Sort Key: created_at DESC |               ->  Parallel Seq Scan on orders  "},
+  "with_index": {"p50_ms": 3.77, "p95_ms": 6.16, "plan": "Limit  (cost=0.43..67.99 rows=21 width=52) |   ->  Index Scan using idx_orders_status_created on orders  (cost=0.43..2451.93 rows=762 width=52) |         Index Cond: (((status)::text = 'PLACED'::text) AND (created_at >= (now() - '7 days'::interval)) AND (created_at <= now()))"},
+  "speedup_p50": 6.3
+}
